@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TAPS — Test Analytics & Predictive System</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+
+    <style>
+
+        *,
+        *::before,
+        *::after{
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+        }
+
+        :root{
+            --accent:#4F46E5;
+            --accent-dark:#3730A3;
+            --accent-bg:#EEEDFE;
+            --accent-text:#3C3489;
+
+            --border:#E4E4E7;
+            --border-md:#A1A1AA;
+
+            --surface:#FFFFFF;
+            --surface-2:#F4F4F5;
+
+            --text:#18181B;
+            --text-muted:#71717A;
+            --text-faint:#A1A1AA;
+
+            --r-md:8px;
+            --r-lg:12px;
+            --r-full:999px;
+        }
+
+        body{
+            font-family:'Inter',sans-serif;
+            background:var(--surface);
+            color:var(--text);
+        }
+
+        /* ---------------- NAV ---------------- */
+
+        nav{
+            position:sticky;
+            top:0;
+            z-index:100;
+            background:rgba(255,255,255,.92);
+            backdrop-filter:blur(8px);
+            border-bottom:1px solid var(--border);
+        }
+
+        .nav-inner{
+            max-width:1100px;
+            margin:auto;
+            padding:0 2rem;
+            height:58px;
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .nav-logo{
+            text-decoration:none;
+            display:flex;
+            gap:10px;
+            align-items:center;
+        }
+
+        .nav-monogram{
+            width:32px;
+            height:32px;
+            border-radius:8px;
+            background:var(--accent);
+
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:12px;
+        }
+
+        .nav-name{
+            color:var(--text);
+            font-size:14px;
+            font-weight:500;
+        }
+
+        /* ---------------- HERO ---------------- */
+
+        .hero{
+            padding:2.5rem 0 2rem;
+            border-bottom:1px solid var(--border);
+        }
+
+        .container{
+            max-width:1100px;
+            margin:auto;
+            padding:0 2rem;
+        }
+
+        .eyebrow{
+            font-size:11px;
+            letter-spacing:.12em;
+            color:var(--text-faint);
+            font-family:Consolas,monospace;
+            margin-bottom:12px;
+        }
+
+        .hero h1{
+            font-size:52px;
+            font-weight:500;
+            letter-spacing:-1.5px;
+            margin-bottom:12px;
+        }
+
+        .hero-sub{
+            color:var(--accent);
+            font-size:20px;
+            margin-bottom:18px;
+        }
+
+        .hero-desc{
+            max-width:760px;
+            color:var(--text-muted);
+            line-height:1.9;
+            font-size:15px;
+        }
+
+        .featured{
+            margin-top:22px;
+            display:inline-flex;
+            padding:6px 12px;
+            border-radius:999px;
+            background:var(--accent-bg);
+            color:var(--accent-text);
+            font-size:12px;
+        }
+
+        /* ---------------- SECTION ---------------- */
+
+        .section{
+            padding:2rem 0;
+            border-bottom:1px solid var(--border);
+        }
+
+        .section-label{
+            font-size:10px;
+            letter-spacing:.12em;
+            color:var(--text-faint);
+            margin-bottom:20px;
+            font-family:Consolas,monospace;
+        }
+
+        .section h2{
+            font-size:22px;
+            margin-bottom:20px;
+        }
+
+        .card{
+            background:var(--surface-2);
+            border:1px solid var(--border);
+            border-radius:var(--r-lg);
+            padding:1.5rem;
+        }
+
+        /* ---------------- HIGHLIGHTS ---------------- */
+
+        .highlights{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:14px;
+        }
+
+        .highlight{
+            background:white;
+            border:1px solid var(--border);
+            border-radius:10px;
+            padding:18px;
+            font-size:14px;
+        }
+
+        /* ---------------- VIDEO ---------------- */
+
+        video{
+            width:100%;
+            border-radius:12px;
+        }
+
+        /* ---------------- SCREENSHOTS ---------------- */
+
+        .gallery{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+            gap:18px;
+        }
+
+        .gallery-item{
+            background:white;
+            border:1px solid var(--border);
+            border-radius:12px;
+            overflow:hidden;
+            transition:.2s;
+        }
+
+        .gallery-item:hover{
+            transform:translateY(-4px);
+        }
+
+        .gallery img{
+            width:100%;
+            display:block;
+        }
+
+        .caption{
+            padding:14px;
+            font-size:13px;
+            color:var(--text-muted);
+        }
+
+        /* ---------------- BUTTON ---------------- */
+
+        .back-btn{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+
+            margin-top:30px;
+
+            text-decoration:none;
+            background:var(--accent);
+            color:white;
+
+            padding:12px 20px;
+            border-radius:8px;
+        }
+
+        .back-btn:hover{
+            background:var(--accent-dark);
+        }
+
+        /* ---------------- FOOTER ---------------- */
+
+        footer{
+            background:var(--surface-2);
+        }
+
+        .footer-inner{
+            max-width:1100px;
+            margin:auto;
+            padding:1.5rem 2rem;
+            font-size:12px;
+            color:var(--text-faint);
+        }
+
+        
+        .stats{display:flex;gap:24px;margin-top:24px;flex-wrap:wrap;}
+        .stat{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 18px;}
+        .stat span{display:block;font-weight:600;font-size:18px;color:var(--accent);}
+        .stat small{color:var(--text-muted);}
+        .gallery img{cursor:pointer;transition:transform .25s ease;}
+        .gallery-item:hover img{transform:scale(1.03);}
+        .image-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;justify-content:center;align-items:center;}
+        .image-modal.active{display:flex;}
+        .image-modal img{max-width:92%;max-height:90%;border-radius:12px;}
+        .close-modal{position:absolute;top:20px;right:30px;color:#fff;font-size:42px;cursor:pointer;}
+
+/* ---------------- MOBILE ---------------- */
+
+        @media(max-width:768px){
+
+            .hero h1{
+                font-size:36px;
+            }
+
+            .hero-sub{
+                font-size:18px;
+            }
+
+            .container{
+                padding:0 1.25rem;
+            }
+
+        }
+
+        .nav-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    color:white;
+    font-size:52px;
+    cursor:pointer;
+    user-select:none;
+    padding:12px;
+    transition:.2s;
+}
+
+.nav-arrow:hover{
+    transform:translateY(-50%) scale(1.1);
+}
+
+.prev{
+    left:30px;
+}
+
+.next{
+    right:30px;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+<nav>
+    <div class="nav-inner">
+
+
+        <a href="../index.html" class="nav-logo">
+            <div class="nav-monogram">MR</div>
+            <span class="nav-name">Manjunath.</span>
+        </a>
+
+    </div>
+
+
+</nav>
+
+<section class="hero">
+    <div class="container">
+
+
+        <div class="eyebrow">// FEATURED PROJECT</div>
+
+        <h1>TAPS</h1>
+
+        <div class="hero-sub">
+            Test Analytics & Predictive System
+        </div>
+
+        <p class="hero-desc">
+            A testing intelligence platform that transforms raw execution data into actionable quality insights. TAPS
+            aggregates automation results, analyzes failure patterns, tracks quality metrics, and provides predictive
+            stability indicators through interactive dashboards.
+        </p>
+
+        <div class="featured">
+            ★ Personal Innovation Project
+        </div>
+
+    </div>
+
+
+</section>
+
+<section class="section">
+    <div class="container">
+
+
+        <div class="section-label">PROJECT OVERVIEW</div>
+
+        <h2>Key Highlights</h2>
+
+        <div class="highlights">
+
+            <div class="highlight">📊 Execution Trend Analysis</div>
+
+            <div class="highlight">📈 Quality Metrics Dashboard</div>
+
+            <div class="highlight">🤖 AI Failure Pattern Detection</div>
+
+            <div class="highlight">📑 Centralized Reporting</div>
+
+            <div class="highlight">📅 Historical Tracking</div>
+
+            <div class="highlight">🚀 Release Readiness Insights</div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+<section class="section">
+    <div class="container">
+
+
+        <div class="section-label">LIVE DEMO</div>
+
+        <h2>Portal Walkthrough</h2>
+
+        <div class="card">
+
+            <video controls>
+                <source src="../assets/videos/taps-demo.mp4" type="video/mp4">
+            </video>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+<section class="section">
+    <div class="container">
+
+
+        <div class="section-label">SCREENSHOTS</div>
+
+        <h2>Platform Overview</h2>
+
+        <div class="gallery">
+
+            <div class="gallery-item">
+                <img src="../assets/images/Projects.png">
+                <div class="caption">Projects Dashboard</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="../assets/images/Execution Summary.png">
+                <div class="caption">Execution Summary</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="../assets/images/Module Details.png">
+                <div class="caption">Module Analysis</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="../assets/images/Trends.png">
+                <div class="caption">Execution Trends</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="../assets/images/AI Insights.png">
+                <div class="caption">AI Insights</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="../assets/images/Defect Management.png">
+                <div class="caption">Defect Management</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="../assets/images/Add Project.png">
+                <div class="caption">Project Onboarding</div>
+            </div>
+
+        </div>
+
+        <a class="back-btn" href="../index.html">
+            ← Back to Portfolio
+        </a>
+
+    </div>
+
+
+</section>
+
+<footer>
+    <div class="footer-inner">
+        © 2026 Manjunath
+    </div>
+</footer>
+
+
+<div class="image-modal" id="imageModal">
+
+    <span class="close-modal">&times;</span>
+
+    <span class="nav-arrow prev" id="prevImage">&#10094;</span>
+
+    <img id="expandedImage" src="">
+
+    <span class="nav-arrow next" id="nextImage">&#10095;</span>
+
+</div>
+<script>
+
+    const modal = document.getElementById('imageModal');
+    const expanded = document.getElementById('expandedImage');
+
+    const images = Array.from(
+        document.querySelectorAll('.gallery img')
+    );
+
+    let currentIndex = 0;
+
+    function openImage(index){
+
+        currentIndex = index;
+
+        expanded.src = images[index].src;
+
+        modal.classList.add('active');
+    }
+
+    images.forEach((img,index)=>{
+
+        img.addEventListener('click',()=>{
+
+            openImage(index);
+
+        });
+
+    });
+
+    document.getElementById('prevImage')
+    .addEventListener('click',(e)=>{
+
+        e.stopPropagation();
+
+        currentIndex =
+            (currentIndex - 1 + images.length)
+            % images.length;
+
+        expanded.src = images[currentIndex].src;
+
+    });
+
+    document.getElementById('nextImage')
+    .addEventListener('click',(e)=>{
+
+        e.stopPropagation();
+
+        currentIndex =
+            (currentIndex + 1)
+            % images.length;
+
+        expanded.src = images[currentIndex].src;
+
+    });
+
+    modal.addEventListener('click',(e)=>{
+
+        if(
+            e.target === modal ||
+            e.target.classList.contains('close-modal')
+        ){
+            modal.classList.remove('active');
+        }
+
+    });
+
+    document.addEventListener('keydown',(e)=>{
+
+        if(!modal.classList.contains('active'))
+            return;
+
+        if(e.key === 'Escape'){
+            modal.classList.remove('active');
+        }
+
+        if(e.key === 'ArrowLeft'){
+
+            currentIndex =
+                (currentIndex - 1 + images.length)
+                % images.length;
+
+            expanded.src = images[currentIndex].src;
+        }
+
+        if(e.key === 'ArrowRight'){
+
+            currentIndex =
+                (currentIndex + 1)
+                % images.length;
+
+            expanded.src = images[currentIndex].src;
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
