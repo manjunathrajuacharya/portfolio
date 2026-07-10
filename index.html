@@ -208,54 +208,71 @@
         .proj-link svg { transition: transform 0.15s; }
         .proj-link:hover svg { transform: translateX(3px); }
 
-        /* ── RECOGNITION PILLS ────────────────── */
-        .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-        .pill {
-          display: inline-flex; align-items: center; gap: 8px;
-          font-size: 13px; font-weight: 500; color: var(--text);
-          text-decoration: none; padding: 10px 20px;
-          border: 1px solid var(--border); border-radius: var(--r-full);
-          background: var(--surface);
-          transition: border-color 0.15s, background 0.15s;
+        /* ── TROPHY SHELF ─────────────────────── */
+        .shelf {
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          overflow: hidden;
+          margin-top: 22px;
         }
-        .pill:hover { border-color: var(--border-md); background: var(--surface-2); }
-        .pill-icon { color: var(--amber); }
+        .shelf-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .shelf-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          padding: 1.75rem 1rem 1.5rem;
+          border-right: 1px solid var(--border);
+          border-bottom: 1px solid var(--border);
+          cursor: pointer;
+          transition: background 0.15s;
+          gap: 10px;
+          position: relative;
+        }
+        .shelf-item:nth-child(3n)   { border-right: none; }
+        .shelf-item:nth-last-child(-n+3) { border-bottom: none; }
+        .shelf-item:hover { background: var(--surface-2); }
 
-        
-        /* ── AWARDS GALLERY ───────────────────── */
-        .gallery{
-          display:grid;
-          grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-          gap:18px;
-          margin-top:18px;
+        .shelf-medal {
+          width: 52px; height: 52px;
+          border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 22px;
+          flex-shrink: 0;
         }
-        .gallery-item{
-          background:var(--surface);
-          border:1px solid var(--border);
-          border-radius:12px;
-          overflow:hidden;
-          cursor:pointer;
-          transition:.2s;
+        .shelf-medal.gold   { background: #FAEEDA; }
+        .shelf-medal.purple { background: #EEEDFE; }
+        .shelf-medal.teal   { background: #E1F5EE; }
+        .shelf-medal.blue   { background: #EFF6FF; }
+
+        .shelf-name {
+          font-size: 13px; font-weight: 500;
+          color: var(--text); line-height: 1.45;
         }
-        .gallery-item:hover{
-          transform:translateY(-3px);
+        .shelf-org {
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+          font-size: 10px; letter-spacing: 0.05em;
+          color: var(--text-faint);
         }
-        .gallery-item{
-          height:200px;
-          display:flex;
-          flex-direction:column;
+        .shelf-hint {
+          font-size: 11px; color: var(--accent);
+          display: flex; align-items: center; gap: 4px;
+          opacity: 0; transition: opacity 0.15s;
+          margin-top: 2px;
         }
-        .gallery-item img{
-          width:100%;
-          height:150px;
-          object-fit:cover;
-          object-position:top;
-          display:block;
-        }
-        .caption{
-          padding:14px;
-          font-size:13px;
-          color:var(--text-muted);
+        .shelf-item:hover .shelf-hint { opacity: 1; }
+
+        /* touch devices — no hover available */
+        @media (hover: none) {
+          .shelf-hint { opacity: 1; }
+          .shelf-item:active {
+            background: var(--surface-2);
+            transform: scale(0.97);
+            transition: transform 0.1s;
+          }
         }
 
         .image-modal{
@@ -365,6 +382,79 @@
         }
 
 
+        /* ── WORK EXPERIENCE TIMELINE ─────────── */
+        .tl-wrap {
+          display: flex;
+          align-items: flex-start;
+          margin-top: 2.5rem;
+          gap: 0;
+        }
+        .tl-item {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+        }
+        /* horizontal connector line through the middle of the logo */
+        .tl-item::before {
+          content: '';
+          position: absolute;
+          top: 35px;
+          left: 50%;
+          right: -50%;
+          height: 1px;
+          background: var(--border);
+          z-index: 0;
+        }
+        .tl-item:last-child::before { display: none; }
+
+        .tl-logo-wrap {
+          position: relative;
+          z-index: 1;
+          width: 70px; height: 70px;
+          border-radius: 14px;
+          border: 1px solid var(--border);
+          background: var(--surface);
+          display: flex; align-items: center; justify-content: center;
+          overflow: hidden;
+          padding: 8px;
+          margin-bottom: 16px;
+        }
+        .tl-logo-wrap img {
+          width: 100%; height: 100%;
+          object-fit: contain;
+        }
+        .tl-body { text-align: center; padding: 0 8px; }
+        .tl-company {
+          font-size: 14px; font-weight: 500;
+          color: var(--text);
+          margin-bottom: 4px;
+        }
+        .tl-role {
+          font-size: 12px; line-height: 1.55;
+          color: var(--text-muted);
+          margin-bottom: 10px;
+        }
+        .tl-tenure {
+          display: inline-block;
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+          font-size: 10px; letter-spacing: 0.05em;
+          color: var(--text-faint);
+          background: var(--surface-2);
+          border: 1px solid var(--border);
+          padding: 3px 9px; border-radius: 4px;
+        }
+        .tl-current {
+          display: inline-block;
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+          font-size: 10px; letter-spacing: 0.05em;
+          color: #0F6E56;
+          background: #E1F5EE;
+          border: 1px solid #9FE1CB;
+          padding: 3px 9px; border-radius: 4px;
+        }
+
         /* ── RESPONSIVE ───────────────────────── */
         @media (max-width: 640px) {
           .container { padding: 0 1.25rem; }
@@ -417,10 +507,11 @@
         </a>
         <div class="nav-links">
             <a href="#about">About</a>
+            <a href="#experience">Experience</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Personal Projects</a>
             <a href="#recognitions">Recognitions</a>
-            <a class="nav-cta" href="mailto:manjunathrajuacharya@gmail.com">Hire Me</a>
+            <a class="nav-cta" href="mailto:manjunathrajuacharya@gmail.com">Contact Me</a>
         </div>
     </div>
 </nav>
@@ -448,7 +539,7 @@
                 </svg>
                 View Personal Projects
             </a>
-            <a class="btn-secondary" href="../assets/pdf/resume.pdf" download>
+            <a class="btn-secondary" href="assets/pdf/resume.pdf" download>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -471,6 +562,50 @@
             frameworks, CI/CD pipelines, testing strategies, and team standards. Actively exploring
             AI in QE practices.
         </p>
+    </div>
+</section>
+
+<!-- WORK EXPERIENCE -->
+<section class="section" id="experience">
+    <div class="container">
+        <div class="section-label">// experience</div>
+        <h2>Work Experience</h2>
+        <div class="tl-wrap">
+
+            <div class="tl-item">
+                <div class="tl-logo-wrap">
+                    <img src="assets/images/tcs.jpg" alt="TCS logo" />
+                </div>
+                <div class="tl-body">
+                    <div class="tl-company">Tata Consultancy Services</div>
+                    <div class="tl-role">Automation Test Engineer</div>
+                    <span class="tl-tenure">Jul 2016 – Nov 2019</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-logo-wrap">
+                    <img src="assets/images/accenture.png" alt="Accenture logo" />
+                </div>
+                <div class="tl-body">
+                    <div class="tl-company">Accenture</div>
+                    <div class="tl-role">Senior Test Automation Engineer</div>
+                    <span class="tl-tenure">Nov 2019 – Mar 2022</span>
+                </div>
+            </div>
+
+            <div class="tl-item">
+                <div class="tl-logo-wrap">
+                    <img src="assets/images/publicis-sapient.png" alt="Publicis Sapient logo" />
+                </div>
+                <div class="tl-body">
+                    <div class="tl-company">Publicis Sapient</div>
+                    <div class="tl-role">SDET Automation Test Engineer</div>
+                    <span class="tl-current">● Current</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
@@ -556,39 +691,84 @@
 <!-- RECOGNITIONS -->
 <section class="section" id="recognitions">
     <div class="container">
+        <div class="section-label">// recognitions</div>
         <h2>Awards & Recognition</h2>
 
-        <div class="gallery">
+        <div class="shelf">
+            <div class="shelf-grid">
 
-            <div class="gallery-item">
-                <img class="expandable" src="assets/awards/client-appreciation.png" alt="Current Client Appreciation">
-                <div class="caption">2026 Current Client Appreciation</div>
-            </div>
+                <div class="shelf-item" data-img="assets/awards/client-appreciation.png" data-alt="Client Appreciation">
+                    <div class="shelf-medal gold">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                    </div>
+                    <div class="shelf-name">Client Appreciation</div>
+                    <div class="shelf-org">Publicis Sapient · 2026</div>
+                    <div class="shelf-hint">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        View certificate
+                    </div>
+                </div>
 
-            <div class="gallery-item">
-                <img class="expandable" src="assets/awards/hackathon.png" alt="AI Hackathon">
-                <div class="caption">2025 Sapient AI Hackathon — TAPS Portal</div>
-            </div>
+                <div class="shelf-item" data-img="assets/awards/hackathon.png" data-alt="Sapient AI Hackathon">
+                    <div class="shelf-medal purple">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/></svg>
+                    </div>
+                    <div class="shelf-name">Sapient AI Hackathon</div>
+                    <div class="shelf-org">Publicis Sapient · 2025</div>
+                    <div class="shelf-hint">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        View certificate
+                    </div>
+                </div>
 
-            <div class="gallery-item">
-                <img class="expandable" src="assets/awards/delivery-heroes.jpg" alt="Delivery Heroes">
-                <div class="caption">2021 Delivery Heroes — Accenture × Google</div>
-            </div>
+                <div class="shelf-item" data-img="assets/awards/delivery-heroes.jpg" data-alt="Delivery Heroes">
+                    <div class="shelf-medal teal">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <div class="shelf-name">Delivery Heroes</div>
+                    <div class="shelf-org">Accenture × Google · 2021</div>
+                    <div class="shelf-hint">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        View certificate
+                    </div>
+                </div>
 
-            <div class="gallery-item">
-                <img class="expandable" src="assets/awards/2019_Star_of_the_Quarter_Award.png"
-                     alt="2019 TCS Star Of Quarter">
-                <div class="caption">2019 TCS Star Of Quarter</div>
-            </div>
+                <div class="shelf-item" data-img="assets/awards/2019_Star_of_the_Quarter_Award.png" data-alt="TCS Star of the Quarter">
+                    <div class="shelf-medal gold">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <div class="shelf-name">Star of the Quarter</div>
+                    <div class="shelf-org">TCS · 2019</div>
+                    <div class="shelf-hint">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        View certificate
+                    </div>
+                </div>
 
-            <div class="gallery-item">
-                <img class="expandable" src="assets/awards/2018_Best_Team_Award.png" alt="2018 TCS Best Team">
-                <div class="caption">2018 TCS Best Team</div>
-            </div>
+                <div class="shelf-item" data-img="assets/awards/2018_Best_Team_Award.png" data-alt="TCS Best Team">
+                    <div class="shelf-medal blue">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D5FAF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="shelf-name">Best Team Award</div>
+                    <div class="shelf-org">TCS · 2018</div>
+                    <div class="shelf-hint">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        View certificate
+                    </div>
+                </div>
 
-            <div class="gallery-item">
-                <img class="expandable" src="assets/awards/2017_On_The_Spot_Award.png" alt="2017 TCS Spot Award">
-                <div class="caption">2017 TCS Spot Award</div>
+                <div class="shelf-item" data-img="assets/awards/2017_On_The_Spot_Award.png" data-alt="TCS On The Spot">
+                    <div class="shelf-medal blue">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D5FAF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    </div>
+                    <div class="shelf-name">On The Spot Award</div>
+                    <div class="shelf-org">TCS · 2017</div>
+                    <div class="shelf-hint">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        View certificate
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -609,7 +789,6 @@
         "Building Quality Engineering Solutions",
         "Designing Scalable Automation Frameworks",
         "Exploring AI in Testing",
-        "Creating Data-Driven Test Analytics",
         "Driving Quality at Scale"
     ];
 
@@ -657,40 +836,43 @@
 </div>
 
 <script>
-    const images = Array.from(document.querySelectorAll('.expandable'));
-    const modal = document.getElementById('imageModal');
+    const items   = Array.from(document.querySelectorAll('.shelf-item[data-img]'));
+    const modal   = document.getElementById('imageModal');
     const expanded = document.getElementById('expandedImage');
     let currentIndex = 0;
 
-    function openImage(index){
-     currentIndex=index;
-     expanded.src=images[index].src;
-     modal.classList.add('active');
+    function openImage(index) {
+        currentIndex = index;
+        expanded.src = items[index].dataset.img;
+        expanded.alt = items[index].dataset.alt || '';
+        modal.classList.add('active');
     }
 
-    images.forEach((img,index)=>{
-     img.addEventListener('click',()=>openImage(index));
+    items.forEach((item, index) => {
+        item.addEventListener('click', () => openImage(index));
     });
 
-    document.getElementById('prevImage').addEventListener('click',(e)=>{
-     e.stopPropagation();
-     currentIndex=(currentIndex-1+images.length)%images.length;
-     expanded.src=images[currentIndex].src;
+    document.getElementById('prevImage').addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        expanded.src = items[currentIndex].dataset.img;
+        expanded.alt = items[currentIndex].dataset.alt || '';
     });
 
-    document.getElementById('nextImage').addEventListener('click',(e)=>{
-     e.stopPropagation();
-     currentIndex=(currentIndex+1)%images.length;
-     expanded.src=images[currentIndex].src;
+    document.getElementById('nextImage').addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex + 1) % items.length;
+        expanded.src = items[currentIndex].dataset.img;
+        expanded.alt = items[currentIndex].dataset.alt || '';
     });
 
-    modal.addEventListener('click',()=>modal.classList.remove('active'));
+    modal.addEventListener('click', () => modal.classList.remove('active'));
 
-    document.addEventListener('keydown',(e)=>{
-     if(!modal.classList.contains('active')) return;
-     if(e.key==='Escape') modal.classList.remove('active');
-     if(e.key==='ArrowLeft') document.getElementById('prevImage').click();
-     if(e.key==='ArrowRight') document.getElementById('nextImage').click();
+    document.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('active')) return;
+        if (e.key === 'Escape')      modal.classList.remove('active');
+        if (e.key === 'ArrowLeft')   document.getElementById('prevImage').click();
+        if (e.key === 'ArrowRight')  document.getElementById('nextImage').click();
     });
 </script>
 
