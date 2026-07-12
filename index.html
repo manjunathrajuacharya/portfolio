@@ -165,7 +165,7 @@
           margin-bottom: 10px;
         }
         .hero-role {
-          font-size: 20px; color: var(--accent);
+          font-size: 20px; color: var(--text-muted);
           font-weight: 400; margin-bottom: 14px;
         }
         .hero-desc {
@@ -194,21 +194,70 @@
         }
         .btn-secondary:hover { background: var(--surface-2); border-color: var(--border-md); }
 
+        /* stats shelf */
+        .stats-shelf {
+          margin-top: 2rem;
+          width: 100%;
+        }
+        .stats-shelf-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .stat-shelf-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          padding: 0.85rem 0.75rem;
+          border-right: 1px solid var(--border);
+          gap: 5px;
+        }
+        .stat-shelf-item:last-child { border-right: none; }
+        /* shrink medal icon specifically inside stats shelf */
+        .stats-shelf .shelf-medal {
+          width: 34px; height: 34px;
+        }
+        .stats-shelf .shelf-medal svg {
+          width: 15px; height: 15px;
+        }
+        .stat-num {
+          display: block; font-size: 18px; font-weight: 600;
+          color: var(--text); letter-spacing: -0.5px; line-height: 1;
+        }
+        .stat-label {
+          font-family: 'SFMono-Regular','Consolas',monospace;
+          font-size: 9px; letter-spacing: .05em;
+          color: var(--text-faint); line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+          .stats-shelf-grid { grid-template-columns: 1fr; }
+          .stat-shelf-item { border-right: none; border-bottom: 1px solid var(--border); }
+          .stat-shelf-item:last-child { border-bottom: none; }
+        }
+
         /* ── SECTIONS ─────────────────────────── */
-        .section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
+        .section { padding: 1.75rem 0 3rem; border-bottom: 1px solid var(--border); }
+        .section-eyebrow {
+          display: flex; align-items: flex-start;
+          gap: 12px; margin-bottom: 22px;
+        }
+        .section-bar {
+          width: 2.5px; border-radius: 2px;
+          background: var(--accent);
+          flex-shrink: 0;
+          align-self: stretch;
+          min-height: 38px;
+        }
         .section-label {
           font-family: 'SFMono-Regular', 'Consolas', monospace;
-          font-size: 10px; letter-spacing: 0.12em; color: var(--text-faint);
-          display: flex; align-items: center; gap: 12px; margin-bottom: 22px;
+          font-size: 10px; letter-spacing: 0.12em;
+          color: var(--text-faint); margin-bottom: 6px;
         }
-        .section-label::after {
-          content: ''; flex: 1;
-          height: 1px; background: var(--border);
-        }
-        .section h2 { font-size: 20px; font-weight: 500; margin-bottom: 14px; }
+        .section h2 { font-size: 20px; font-weight: 500; margin-bottom: 0; }
         .section > .container > p {
           font-size: 14px; line-height: 1.8; color: var(--text-muted);
-          max-width: 760px;
+          max-width: 760px; margin-top: 14px;
         }
 
         /* ── SKILLS ───────────────────────────── */
@@ -225,9 +274,12 @@
           background: var(--surface-2);
           border: 1px solid var(--border);
           padding: 5px 13px; border-radius: 6px;
-          transition: border-color 0.15s, color 0.15s;
+          transition: border-color 0.15s, color 0.15s, opacity 0.35s ease, transform 0.35s ease;
+          opacity: 0;
+          transform: scale(0.75);
         }
-        .skill-chip:hover { border-color: var(--border-md); color: var(--text); }
+        .skill-chip.popped   { opacity: 1; transform: scale(1); }
+        .skill-chip:hover    { border-color: var(--border-md); color: var(--text); }
         .skill-chip.accent {
           color: var(--accent-text);
           background: var(--accent-bg);
@@ -372,6 +424,8 @@
         .next{right:20px;}
 
 
+        .tl-body { text-align: center; padding: 0 8px; }
+
         /* ── FOOTER ───────────────────────────── */
         footer {
           width: 100%;
@@ -394,52 +448,6 @@
         .footer-links a:hover { color: var(--text-muted); }
 
 
-        /* ── ENHANCED FLOATING BUBBLES ───────────────── */
-        .particles{
-          position:fixed;
-          inset:0;
-          pointer-events:none;
-          z-index:0;
-          overflow:hidden;
-        }
-
-        .particle{
-          position:absolute;
-          border-radius:50%;
-          backdrop-filter: blur(2px);
-          background: radial-gradient(circle at 30% 30%,
-                     rgba(79,70,229,.35),
-                     rgba(79,70,229,.12));
-          box-shadow:
-             0 0 12px rgba(79,70,229,.12),
-             inset 0 0 6px rgba(255,255,255,.25);
-          animation: float 20s infinite linear;
-        }
-
-        .particle:nth-child(1){width:10px;height:10px;left:8%;animation-duration:20s;}
-        .particle:nth-child(2){width:18px;height:18px;left:22%;animation-duration:28s;}
-        .particle:nth-child(3){width:8px;height:8px;left:40%;animation-duration:16s;}
-        .particle:nth-child(4){width:22px;height:22px;left:58%;animation-duration:26s;}
-        .particle:nth-child(5){width:14px;height:14px;left:76%;animation-duration:22s;}
-        .particle:nth-child(6){width:10px;height:10px;left:90%;animation-duration:18s;}
-
-        @keyframes float{
-          from{
-             transform:translateY(100vh) scale(.8);
-             opacity:0;
-          }
-          20%{opacity:.9;}
-          80%{opacity:.9;}
-          to{
-             transform:translateY(-150px) scale(1.2);
-             opacity:0;
-          }
-        }
-
-        nav,.hero,.section,footer{
-          position:relative;
-          z-index:1;
-        }
 
 
         /* ── WORK EXPERIENCE TIMELINE ─────────── */
@@ -456,7 +464,6 @@
           align-items: center;
           position: relative;
         }
-        /* horizontal connector line through the middle of the logo */
         .tl-item::before {
           content: '';
           position: absolute;
@@ -515,6 +522,25 @@
           padding: 3px 9px; border-radius: 4px;
         }
 
+        /* ── FLOATING CODE SNIPPETS ───────────── */
+        .hero { position: relative; overflow: hidden; }
+        .code-float {
+          position: absolute;
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+          font-size: 11px;
+          color: var(--accent);
+          opacity: 0;
+          pointer-events: none;
+          white-space: nowrap;
+          animation: codeDrift linear infinite;
+        }
+        @keyframes codeDrift {
+          0%   { opacity: 0;    transform: translateY(0px); }
+          10%  { opacity: 0.15; }
+          85%  { opacity: 0.15; }
+          100% { opacity: 0;    transform: translateY(-80px); }
+        }
+
         /* ── RESPONSIVE ───────────────────────── */
         @media (max-width: 640px) {
           .container { padding: 0 1.25rem; }
@@ -523,6 +549,7 @@
           .hero { padding: 1rem 0 2rem; }
           .hero h1 { font-size: 32px; }
           .hero-role { font-size: 16px; }
+          .stats-bar { gap: 1.5rem; flex-wrap: wrap; }
           .nav-links { gap: 16px; }
           .section { padding: 2.25rem 0; }
         }
@@ -549,13 +576,6 @@
     </style>
 </head>
 <body>
-
-<div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-</div>
 
 
 <!-- NAV -->
@@ -594,6 +614,20 @@
 
 <!-- HERO -->
 <section class="hero">
+    <span class="code-float"
+          style="left:62%;top:18%;animation-duration:14s;animation-delay:0s;">assert(result).isTrue()</span>
+    <span class="code-float" style="left:75%;top:55%;animation-duration:18s;animation-delay:3s;">docker run --rm</span>
+    <span class="code-float"
+          style="left:55%;top:72%;animation-duration:16s;animation-delay:6s;">@Test void validate()</span>
+    <span class="code-float"
+          style="left:80%;top:30%;animation-duration:20s;animation-delay:1s;">git commit -m "fix"</span>
+    <span class="code-float"
+          style="left:68%;top:82%;animation-duration:15s;animation-delay:9s;">pipeline { stages }</span>
+    <span class="code-float" style="left:58%;top:42%;animation-duration:22s;animation-delay:4s;">behave --tags</span>
+    <span class="code-float"
+          style="left:85%;top:65%;animation-duration:17s;animation-delay:7s;">mvn test -Denv=test</span>
+    <span class="code-float"
+          style="left:72%;top:10%;animation-duration:19s;animation-delay:2s;">Scenario Outline:</span>
     <div class="container">
         <div class="eyebrow">// SDET · Bangalore, India</div>
         <h1>Manjunath.</h1>
@@ -625,13 +659,58 @@
                 Resume
             </a>
         </div>
+        <div class="stats-shelf">
+            <div class="stats-shelf-grid">
+                <div class="stat-shelf-item">
+                    <div class="shelf-medal purple">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <span class="stat-num" data-target="9" data-suffix="+">0</span>
+                    <span class="stat-label">YEARS IN QE</span>
+                </div>
+                <div class="stat-shelf-item">
+                    <div class="shelf-medal purple">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <span class="stat-num" data-target="5" data-suffix="+">0</span>
+                    <span class="stat-label">PROJECTS DELIVERED</span>
+                </div>
+                <div class="stat-shelf-item">
+                    <div class="shelf-medal purple">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <span class="stat-num" data-target="2000" data-suffix="+">0</span>
+                    <span class="stat-label">TESTS AUTHORED (Latest Proj.)</span>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- ABOUT -->
 <section class="section" id="about">
     <div class="container">
-        <h2>About Me</h2>
+        <div class="section-eyebrow">
+            <div class="section-bar"></div>
+            <div>
+                <div class="section-label">// $ who-am-i</div>
+                <h2>About Me</h2>
+            </div>
+        </div>
         <p>
             QE Lead with 9+ years of experience in test automation, framework design, and quality
             engineering across enterprise applications. Built automation practices from scratch —
@@ -644,8 +723,13 @@
 <!-- WORK EXPERIENCE -->
 <section class="section" id="experience">
     <div class="container">
-        <div class="section-label">// experience</div>
-        <h2>Work Experience</h2>
+        <div class="section-eyebrow">
+            <div class="section-bar"></div>
+            <div>
+                <div class="section-label">// git log --career --oneline</div>
+                <h2>Work Experience</h2>
+            </div>
+        </div>
         <div class="tl-wrap">
 
             <div class="tl-item">
@@ -688,7 +772,13 @@
 <!-- SKILLS -->
 <section class="section" id="skills">
     <div class="container">
-        <h2>Key Skills</h2>
+        <div class="section-eyebrow">
+            <div class="section-bar"></div>
+            <div>
+                <div class="section-label">// import { skills } from 'experience'</div>
+                <h2>Key Skills</h2>
+            </div>
+        </div>
         <div class="skills-groups">
 
             <div>
@@ -740,7 +830,13 @@
 <!-- PERSONAL PROJECTS -->
 <section class="section" id="projects">
     <div class="container">
-        <h2>Personal Projects</h2>
+        <div class="section-eyebrow">
+            <div class="section-bar"></div>
+            <div>
+                <div class="section-label">// side_quests.running()</div>
+                <h2>Personal Projects</h2>
+            </div>
+        </div>
         <div class="proj-card">
             <div class="proj-top">
                 <span class="proj-name">Test Analytics &amp; Predictive System Portal (TAPS)</span>
@@ -767,8 +863,13 @@
 <!-- RECOGNITIONS -->
 <section class="section" id="recognitions">
     <div class="container">
-        <div class="section-label">// recognitions</div>
-        <h2>Awards & Recognition</h2>
+        <div class="section-eyebrow">
+            <div class="section-bar"></div>
+            <div>
+                <div class="section-label">// achievements_unlocked[]</div>
+                <h2>Awards & Recognition</h2>
+            </div>
+        </div>
 
         <div class="shelf">
             <div class="shelf-grid">
@@ -917,7 +1018,6 @@
         "Building Quality Engineering Solutions",
         "Designing Scalable Automation Frameworks",
         "Exploring AI in Testing",
-        "Creating Data-Driven Test Analytics",
         "Driving Quality at Scale"
     ];
 
@@ -1022,6 +1122,44 @@
     // close on outside tap
     document.addEventListener('click', (e) => {
         if (!e.target.closest('nav')) closeMenu();
+    });
+</script>
+
+<script>
+    /* ── SKILL CHIP POP-IN ── */
+    const skillsSection = document.getElementById('skills');
+    if (skillsSection) {
+        const chipObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const chips = entry.target.querySelectorAll('.skill-chip');
+                    chips.forEach((chip, i) => {
+                        setTimeout(() => chip.classList.add('popped'), i * 60);
+                    });
+                    chipObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        chipObserver.observe(skillsSection);
+    }
+</script>
+<script>
+    function animateCounter(el) {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        const duration = target > 100 ? 1800 : 900;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.textContent = (target > 100
+                ? Math.floor(current).toLocaleString()
+                : Math.floor(current)) + suffix;
+            if (current >= target) clearInterval(timer);
+        }, 16);
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.stat-num').forEach(animateCounter);
     });
 </script>
 </body>
