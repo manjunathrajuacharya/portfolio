@@ -701,20 +701,6 @@
         }
 
         /* ── COMMAND PALETTE ──────────────────── */
-        .cmdk-hint {
-          display: inline-flex; align-items: center; gap: 5px;
-          font-family: 'SFMono-Regular', 'Consolas', monospace;
-          font-size: 11px; color: var(--text-faint);
-          background: none; border: 1px solid var(--border);
-          border-radius: 6px; padding: 5px 9px;
-          cursor: pointer; transition: border-color 0.15s, color 0.15s;
-        }
-        .cmdk-hint:hover { border-color: var(--border-md); color: var(--text-muted); }
-        .cmdk-hint kbd {
-          font-family: inherit; font-size: 10px;
-          background: var(--surface-2); border: 1px solid var(--border);
-          border-radius: 3px; padding: 1px 5px;
-        }
 
         .cmdk-overlay {
           position: fixed; inset: 0;
@@ -794,9 +780,6 @@
             <a href="#skills">Skills</a>
             <a href="#projects">Personal Projects</a>
             <a href="#recognitions">Recognitions</a>
-            <button class="cmdk-hint" id="cmdkTrigger" type="button" aria-label="Open command palette">
-                Go to <kbd>/</kbd>
-            </button>
             <a class="nav-cta" href="mailto:manjunathrajuacharya@gmail.com">Contact Me</a>
         </div>
         <!-- hamburger — mobile only -->
@@ -1547,8 +1530,6 @@
     function closeCmdk() {
         cmdkOverlay.classList.remove('active');
     }
-
-    document.getElementById('cmdkTrigger').addEventListener('click', openCmdk);
 
     document.addEventListener('keydown', (e) => {
         const typingInField = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
