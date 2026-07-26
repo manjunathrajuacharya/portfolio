@@ -236,6 +236,18 @@
           .stat-shelf-item:last-child { border-bottom: none; }
         }
 
+        /* ── SCROLL REVEAL ────────────────────── */
+        .reveal {
+          opacity: 0;
+          transform: translateY(18px);
+          transition: opacity 0.55s ease, transform 0.55s ease;
+          transition-delay: var(--reveal-delay, 0s);
+        }
+        .reveal.is-visible { opacity: 1; transform: translateY(0); }
+        @media (prefers-reduced-motion: reduce) {
+          .reveal { opacity: 1; transform: none; transition: none; }
+        }
+
         /* ── SECTIONS ─────────────────────────── */
         .section { padding: 1.75rem 0 3rem; border-bottom: 1px solid var(--border); }
         .section-eyebrow {
@@ -258,6 +270,59 @@
         .section > .container > p {
           font-size: 14px; line-height: 1.8; color: var(--text-muted);
           max-width: 760px; margin-top: 14px;
+        }
+
+        /* ── ABOUT ────────────────────────────── */
+        .about-pillars {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          margin-top: 22px;
+        }
+        .about-pillar {
+          background: var(--surface-2);
+          border: 1px solid var(--border);
+          border-radius: var(--r-md);
+          padding: 14px 15px;
+          transition: border-color 0.2s, transform 0.2s;
+        }
+        .about-pillar:hover {
+          border-color: var(--border-md);
+          transform: translateY(-2px);
+        }
+        .about-pillar-icon {
+          width: 26px; height: 26px;
+          border-radius: 7px;
+          background: var(--accent-bg);
+          display: flex; align-items: center; justify-content: center;
+          margin-bottom: 10px;
+        }
+        .about-pillar-icon.purple { background: #EEEDFE; }
+        .about-pillar-icon.blue   { background: #EFF6FF; }
+        .about-pillar-icon.teal   { background: #E1F5EE; }
+        .about-pillar-icon.gold   { background: #FAEEDA; }
+        .about-pillar-title {
+          font-size: 12.5px; font-weight: 500;
+          color: var(--text); margin-bottom: 4px;
+        }
+        .about-pillar-desc {
+          font-size: 11.5px; line-height: 1.55;
+          color: var(--text-muted);
+        }
+        .about-quote {
+          margin-top: 22px;
+          padding-left: 14px;
+          border-left: 2px solid var(--accent);
+          font-size: 13.5px; line-height: 1.7;
+          color: var(--text-muted);
+          font-style: italic;
+          max-width: 640px;
+        }
+        @media (max-width: 720px) {
+          .about-pillars { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 420px) {
+          .about-pillars { grid-template-columns: 1fr; }
         }
 
         /* ── SKILLS ───────────────────────────── */
@@ -502,9 +567,13 @@
           font-size: 12px; line-height: 1.55;
           color: var(--text-muted);
           margin-bottom: 10px;
+          min-height: 37px;
         }
         .tl-tenure {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
           font-family: 'SFMono-Regular', 'Consolas', monospace;
           font-size: 10px; letter-spacing: 0.05em;
           color: var(--text-faint);
@@ -513,13 +582,59 @@
           padding: 3px 9px; border-radius: 4px;
         }
         .tl-current {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
           font-family: 'SFMono-Regular', 'Consolas', monospace;
           font-size: 10px; letter-spacing: 0.05em;
           color: #0F6E56;
           background: #E1F5EE;
           border: 1px solid #9FE1CB;
           padding: 3px 9px; border-radius: 4px;
+        }
+
+        /* ── TIMELINE HIGHLIGHTS TOGGLE ───────── */
+        .tl-toggle {
+          display: flex; align-items: center; gap: 5px;
+          margin-top: 12px;
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+          font-size: 10.5px; letter-spacing: 0.03em;
+          color: var(--accent-text);
+          background: none; border: none; cursor: pointer;
+          padding: 4px 2px;
+        }
+        .tl-toggle:hover { color: var(--accent-dark); }
+        .tl-toggle svg {
+          width: 11px; height: 11px;
+          transition: transform 0.25s ease;
+        }
+        .tl-item.open .tl-toggle svg { transform: rotate(180deg); }
+        .tl-details {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.35s ease;
+          text-align: left;
+          width: 100%;
+        }
+        .tl-item.open .tl-details { max-height: 320px; }
+        .tl-details-inner { padding: 10px 4px 2px; }
+        .tl-details-inner li {
+          list-style: none;
+          font-size: 11.5px; line-height: 1.6;
+          color: var(--text-muted);
+          padding-left: 14px;
+          position: relative;
+          margin-bottom: 7px;
+        }
+        .tl-details-inner li::before {
+          content: '›';
+          position: absolute; left: 0; top: 0;
+          color: var(--accent);
+          font-weight: 700;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .tl-toggle svg, .tl-details { transition: none; }
         }
 
         /* ── FLOATING CODE SNIPPETS ───────────── */
@@ -552,6 +667,17 @@
           .stats-bar { gap: 1.5rem; flex-wrap: wrap; }
           .nav-links { gap: 16px; }
           .section { padding: 2.25rem 0; }
+
+          /* force equal row heights across timeline columns so
+             "Highlights" toggles line up regardless of how much
+             the role text or date range wraps on narrow screens */
+          .tl-role { min-height: 56px; }
+          .tl-tenure, .tl-current {
+            height: 34px;
+            width: 100px;
+            line-height: 1.25;
+            white-space: normal;
+          }
         }
 
         .typing-container{
@@ -573,6 +699,82 @@
                 opacity:0;
             }
         }
+
+        /* ── COMMAND PALETTE ──────────────────── */
+        .cmdk-hint {
+          display: inline-flex; align-items: center; gap: 5px;
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+          font-size: 11px; color: var(--text-faint);
+          background: none; border: 1px solid var(--border);
+          border-radius: 6px; padding: 5px 9px;
+          cursor: pointer; transition: border-color 0.15s, color 0.15s;
+        }
+        .cmdk-hint:hover { border-color: var(--border-md); color: var(--text-muted); }
+        .cmdk-hint kbd {
+          font-family: inherit; font-size: 10px;
+          background: var(--surface-2); border: 1px solid var(--border);
+          border-radius: 3px; padding: 1px 5px;
+        }
+
+        .cmdk-overlay {
+          position: fixed; inset: 0;
+          background: rgba(24,24,27,0.45);
+          backdrop-filter: blur(2px);
+          z-index: 300;
+          display: flex; align-items: flex-start; justify-content: center;
+          padding-top: 12vh;
+          opacity: 0; pointer-events: none;
+          transition: opacity 0.18s ease;
+        }
+        .cmdk-overlay.active { opacity: 1; pointer-events: auto; }
+        .cmdk-panel {
+          width: 100%; max-width: 480px;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: var(--r-lg);
+          box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+          overflow: hidden;
+          transform: translateY(-10px) scale(0.98);
+          transition: transform 0.18s ease;
+          margin: 0 1.25rem;
+        }
+        .cmdk-overlay.active .cmdk-panel { transform: translateY(0) scale(1); }
+        .cmdk-input-row {
+          display: flex; align-items: center; gap: 10px;
+          padding: 13px 16px;
+          border-bottom: 1px solid var(--border);
+        }
+        .cmdk-input-row svg { flex-shrink: 0; color: var(--text-faint); }
+        #cmdkInput {
+          flex: 1; border: none; outline: none;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 14px; color: var(--text);
+          background: none;
+        }
+        #cmdkInput::placeholder { color: var(--text-faint); }
+        .cmdk-esc {
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+          font-size: 10px; color: var(--text-faint);
+          border: 1px solid var(--border); border-radius: 4px;
+          padding: 2px 6px;
+        }
+        .cmdk-list { max-height: 320px; overflow-y: auto; padding: 6px; }
+        .cmdk-item {
+          display: flex; align-items: center; gap: 11px;
+          padding: 9px 10px; border-radius: 8px;
+          cursor: pointer; font-size: 13px; color: var(--text);
+        }
+        .cmdk-item svg { flex-shrink: 0; color: var(--text-muted); }
+        .cmdk-item .cmdk-item-sub {
+          font-size: 11px; color: var(--text-faint); margin-left: auto;
+          font-family: 'SFMono-Regular', 'Consolas', monospace;
+        }
+        .cmdk-item.active { background: var(--accent-bg); }
+        .cmdk-item.active svg { color: var(--accent); }
+        .cmdk-empty {
+          padding: 20px 16px; text-align: center;
+          font-size: 12.5px; color: var(--text-faint);
+        }
     </style>
 </head>
 <body>
@@ -592,6 +794,9 @@
             <a href="#skills">Skills</a>
             <a href="#projects">Personal Projects</a>
             <a href="#recognitions">Recognitions</a>
+            <button class="cmdk-hint" id="cmdkTrigger" type="button" aria-label="Open command palette">
+                Go to <kbd>/</kbd>
+            </button>
             <a class="nav-cta" href="mailto:manjunathrajuacharya@gmail.com">Contact Me</a>
         </div>
         <!-- hamburger — mobile only -->
@@ -673,8 +878,8 @@
                     <span class="stat-label">YEARS IN QE</span>
                 </div>
                 <div class="stat-shelf-item">
-                    <div class="shelf-medal purple">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.8"
+                    <div class="shelf-medal blue">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D5FAF" stroke-width="1.8"
                              stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="16 18 22 12 16 6"/>
                             <polyline points="8 6 2 12 8 18"/>
@@ -684,8 +889,8 @@
                     <span class="stat-label">PROJECTS DELIVERED</span>
                 </div>
                 <div class="stat-shelf-item">
-                    <div class="shelf-medal purple">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.8"
+                    <div class="shelf-medal teal">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="1.8"
                              stroke-linecap="round" stroke-linejoin="round">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                             <circle cx="9" cy="7" r="4"/>
@@ -693,8 +898,8 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                         </svg>
                     </div>
-                    <span class="stat-num" data-target="2000" data-suffix="+">0</span>
-                    <span class="stat-label">TESTS AUTHORED (Latest Proj.)</span>
+                    <span class="stat-num" data-target="6" data-suffix="+">0</span>
+                    <span class="stat-label">ENGINEERS MENTORED</span>
                 </div>
             </div>
         </div>
@@ -704,18 +909,60 @@
 <!-- ABOUT -->
 <section class="section" id="about">
     <div class="container">
-        <div class="section-eyebrow">
+        <div class="section-eyebrow reveal">
             <div class="section-bar"></div>
             <div>
                 <div class="section-label">// $ who-am-i</div>
                 <h2>About Me</h2>
             </div>
         </div>
-        <p>
+        <p class="reveal">
             QE Lead with 9+ years of experience in test automation, framework design, and quality
-            engineering across enterprise applications. Built automation practices from scratch —
-            frameworks, CI/CD pipelines, testing strategies, and team standards. Actively exploring
-            AI in QE practices.
+            engineering across enterprise applications. Hands-on across UI, API, and protocol-level
+            testing, and comfortable leading teams while still writing the code myself.
+        </p>
+
+        <div class="about-pillars">
+            <div class="about-pillar reveal" style="--reveal-delay:0.05s">
+                <div class="about-pillar-icon purple">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                </div>
+                <div class="about-pillar-title">Framework &amp; Strategy</div>
+                <div class="about-pillar-desc">Built automation practices from scratch — frameworks, CI/CD pipelines, testing strategies, and team standards.</div>
+            </div>
+            <div class="about-pillar reveal" style="--reveal-delay:0.12s">
+                <div class="about-pillar-icon blue">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D5FAF" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/>
+                        <polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                <div class="about-pillar-title">CI/CD &amp; Environments</div>
+                <div class="about-pillar-desc">Jenkins, Docker, short-lived test environments, and automated stakeholder reporting baked into the pipeline.</div>
+            </div>
+            <div class="about-pillar reveal" style="--reveal-delay:0.19s">
+                <div class="about-pillar-icon teal">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="about-pillar-title">Leadership &amp; Standards</div>
+                <div class="about-pillar-desc">Led teams, set QE standards, and worked closely with Dev — testing as part of the cycle, not at the end of it.</div>
+            </div>
+            <div class="about-pillar reveal" style="--reveal-delay:0.26s">
+                <div class="about-pillar-icon gold">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/></svg>
+                </div>
+                <div class="about-pillar-title">AI in QE</div>
+                <div class="about-pillar-desc">Actively exploring MCP-based Playwright, GitHub Copilot, and a predictive test analytics portal.</div>
+            </div>
+        </div>
+
+        <p class="about-quote reveal">
+            I care about building quality systems that are visible, maintainable, and fast — not just passing test suites.
         </p>
     </div>
 </section>
@@ -723,7 +970,7 @@
 <!-- WORK EXPERIENCE -->
 <section class="section" id="experience">
     <div class="container">
-        <div class="section-eyebrow">
+        <div class="section-eyebrow reveal">
             <div class="section-bar"></div>
             <div>
                 <div class="section-label">// git log --career --oneline</div>
@@ -732,7 +979,7 @@
         </div>
         <div class="tl-wrap">
 
-            <div class="tl-item">
+            <div class="tl-item reveal" style="--reveal-delay:0.05s">
                 <div class="tl-logo-wrap">
                     <img src="assets/images/tcs.jpg" alt="TCS logo"/>
                 </div>
@@ -740,10 +987,22 @@
                     <div class="tl-company">TCS</div>
                     <div class="tl-role">Automation Test Engineer</div>
                     <span class="tl-tenure">Jul 2016 – Nov 2019</span>
+                    <button class="tl-toggle" aria-expanded="false">
+                        Highlights
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="tl-details">
+                        <ul class="tl-details-inner">
+                            <li>Co-built the Cucumber BDD automation framework from scratch — covering functional, regression, and sanity layers.</li>
+                            <li>Developed automation scripts for user stories and maintained Jenkins CI jobs for scheduled execution.</li>
+                            <li>Translated client requirements from design calls into structured test designs aligned to sprint goals.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="tl-item">
+            <div class="tl-item reveal" style="--reveal-delay:0.15s">
                 <div class="tl-logo-wrap">
                     <img src="assets/images/accenture.png" alt="Accenture logo"/>
                 </div>
@@ -751,10 +1010,22 @@
                     <div class="tl-company">Accenture</div>
                     <div class="tl-role">Senior Auto Test Engineer</div>
                     <span class="tl-tenure">Nov 2019 – Mar 2022</span>
+                    <button class="tl-toggle" aria-expanded="false">
+                        Highlights
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="tl-details">
+                        <ul class="tl-details-inner">
+                            <li>Owned end-to-end UI &amp; backend automation for Google's gStore using the TIN framework.</li>
+                            <li>Served as co-automation lead in leadership's absence, coordinating team deliverables.</li>
+                            <li>Authored automation handbooks adopted as standard onboarding guides across teams.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="tl-item">
+            <div class="tl-item reveal" style="--reveal-delay:0.25s">
                 <div class="tl-logo-wrap">
                     <img src="assets/images/publicis-sapient.png" alt="Publicis Sapient logo"/>
                 </div>
@@ -762,6 +1033,18 @@
                     <div class="tl-company">Publicis Sapient</div>
                     <div class="tl-role">SDET Automation Test Engineer</div>
                     <span class="tl-current">● Current</span>
+                    <button class="tl-toggle" aria-expanded="false">
+                        Highlights
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="tl-details">
+                        <ul class="tl-details-inner">
+                            <li>Built the entire automation setup from zero for a new trading application; set QE standards and led a team of 5.</li>
+                            <li>CI/CD pipeline runs ~2,000 tests daily with a fresh environment each run and an automated summary to stakeholders.</li>
+                            <li>Explored MCP-based Playwright integration and presented it to the team.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -772,7 +1055,7 @@
 <!-- SKILLS -->
 <section class="section" id="skills">
     <div class="container">
-        <div class="section-eyebrow">
+        <div class="section-eyebrow reveal">
             <div class="section-bar"></div>
             <div>
                 <div class="section-label">// import { skills } from 'experience'</div>
@@ -830,14 +1113,14 @@
 <!-- PERSONAL PROJECTS -->
 <section class="section" id="projects">
     <div class="container">
-        <div class="section-eyebrow">
+        <div class="section-eyebrow reveal">
             <div class="section-bar"></div>
             <div>
                 <div class="section-label">// side_quests.running()</div>
                 <h2>Personal Projects</h2>
             </div>
         </div>
-        <div class="proj-card">
+        <div class="proj-card reveal">
             <div class="proj-top">
                 <span class="proj-name">Test Analytics &amp; Predictive System Portal (TAPS)</span>
                 <span class="feat-badge">★ Featured</span>
@@ -863,7 +1146,7 @@
 <!-- RECOGNITIONS -->
 <section class="section" id="recognitions">
     <div class="container">
-        <div class="section-eyebrow">
+        <div class="section-eyebrow reveal">
             <div class="section-bar"></div>
             <div>
                 <div class="section-label">// achievements_unlocked[]</div>
@@ -874,7 +1157,7 @@
         <div class="shelf">
             <div class="shelf-grid">
 
-                <div class="shelf-item" data-img="assets/awards/client-appreciation.png" data-alt="Client Appreciation">
+                <div class="shelf-item reveal" style="--reveal-delay:0.02s" data-img="assets/awards/client-appreciation.png" data-alt="Client Appreciation">
                     <div class="shelf-medal gold">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="1.8"
                              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -898,7 +1181,7 @@
                     </div>
                 </div>
 
-                <div class="shelf-item" data-img="assets/awards/hackathon.png" data-alt="Sapient AI Hackathon">
+                <div class="shelf-item reveal" style="--reveal-delay:0.08s" data-img="assets/awards/hackathon.png" data-alt="Sapient AI Hackathon">
                     <div class="shelf-medal purple">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.8"
                              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -917,7 +1200,7 @@
                     </div>
                 </div>
 
-                <div class="shelf-item" data-img="assets/awards/delivery-heroes.jpg" data-alt="Delivery Heroes">
+                <div class="shelf-item reveal" style="--reveal-delay:0.14s" data-img="assets/awards/delivery-heroes.jpg" data-alt="Delivery Heroes">
                     <div class="shelf-medal teal">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="1.8"
                              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -936,7 +1219,7 @@
                     </div>
                 </div>
 
-                <div class="shelf-item" data-img="assets/awards/2019_Star_of_the_Quarter_Award.png"
+                <div class="shelf-item reveal" style="--reveal-delay:0.2s" data-img="assets/awards/2019_Star_of_the_Quarter_Award.png"
                      data-alt="TCS Star of the Quarter">
                     <div class="shelf-medal gold">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="1.8"
@@ -956,7 +1239,7 @@
                     </div>
                 </div>
 
-                <div class="shelf-item" data-img="assets/awards/2018_Best_Team_Award.png" data-alt="TCS Best Team">
+                <div class="shelf-item reveal" style="--reveal-delay:0.26s" data-img="assets/awards/2018_Best_Team_Award.png" data-alt="TCS Best Team">
                     <div class="shelf-medal blue">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D5FAF" stroke-width="1.8"
                              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -978,7 +1261,7 @@
                     </div>
                 </div>
 
-                <div class="shelf-item" data-img="assets/awards/2017_On_The_Spot_Award.png" data-alt="TCS On The Spot">
+                <div class="shelf-item reveal" style="--reveal-delay:0.32s" data-img="assets/awards/2017_On_The_Spot_Award.png" data-alt="TCS On The Spot">
                     <div class="shelf-medal blue">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D5FAF" stroke-width="1.8"
                              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1056,6 +1339,20 @@
     typeEffect();
 
 </script>
+
+<!-- COMMAND PALETTE -->
+<div class="cmdk-overlay" id="cmdkOverlay">
+    <div class="cmdk-panel">
+        <div class="cmdk-input-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/></svg>
+            <input id="cmdkInput" type="text" placeholder="Go to a section, or run a command…" autocomplete="off"/>
+            <span class="cmdk-esc">ESC</span>
+        </div>
+        <div class="cmdk-list" id="cmdkList"></div>
+    </div>
+</div>
 
 <div class="image-modal" id="imageModal">
     <span class="close-modal">&times;</span>
@@ -1160,6 +1457,138 @@
     }
     window.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.stat-num').forEach(animateCounter);
+    });
+</script>
+
+<script>
+    /* ── SCROLL REVEAL ── */
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+<script>
+    /* ── TIMELINE HIGHLIGHTS TOGGLE ── */
+    document.querySelectorAll('.tl-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.tl-item');
+            const isOpen = item.classList.toggle('open');
+            btn.setAttribute('aria-expanded', isOpen);
+        });
+    });
+</script>
+
+<script>
+    /* ── COMMAND PALETTE ── */
+    const cmdkCommands = [
+        { label: 'Go to About', sub: '#about', action: () => scrollToId('about') },
+        { label: 'Go to Experience', sub: '#experience', action: () => scrollToId('experience') },
+        { label: 'Go to Skills', sub: '#skills', action: () => scrollToId('skills') },
+        { label: 'Go to Personal Projects', sub: '#projects', action: () => scrollToId('projects') },
+        { label: 'Go to Recognitions', sub: '#recognitions', action: () => scrollToId('recognitions') },
+        { label: 'View TAPS Project', sub: '↗', action: () => window.location.href = 'projects/taps.html' },
+        { label: 'Download Resume', sub: '.pdf', action: () => window.location.href = 'assets/pdf/resume.pdf' },
+        { label: 'Email Me', sub: 'mailto', action: () => window.location.href = 'mailto:manjunathrajuacharya@gmail.com' },
+    ];
+
+    function scrollToId(id) {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    const cmdkOverlay = document.getElementById('cmdkOverlay');
+    const cmdkInput   = document.getElementById('cmdkInput');
+    const cmdkList    = document.getElementById('cmdkList');
+    let cmdkActiveIndex = 0;
+    let cmdkFiltered = cmdkCommands;
+
+    const commandIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+
+    function renderCmdkList() {
+        cmdkList.innerHTML = '';
+        if (cmdkFiltered.length === 0) {
+            cmdkList.innerHTML = '<div class="cmdk-empty">No matching commands</div>';
+            return;
+        }
+        cmdkFiltered.forEach((cmd, i) => {
+            const row = document.createElement('div');
+            row.className = 'cmdk-item' + (i === cmdkActiveIndex ? ' active' : '');
+            row.innerHTML = `${commandIcon}<span>${cmd.label}</span><span class="cmdk-item-sub">${cmd.sub}</span>`;
+            row.addEventListener('mouseenter', () => {
+                cmdkActiveIndex = i;
+                renderCmdkList();
+            });
+            row.addEventListener('click', () => runActive());
+            cmdkList.appendChild(row);
+        });
+    }
+
+    function runActive() {
+        const cmd = cmdkFiltered[cmdkActiveIndex];
+        if (cmd) cmd.action();
+        closeCmdk();
+    }
+
+    function openCmdk() {
+        cmdkOverlay.classList.add('active');
+        cmdkInput.value = '';
+        cmdkFiltered = cmdkCommands;
+        cmdkActiveIndex = 0;
+        renderCmdkList();
+        setTimeout(() => cmdkInput.focus(), 10);
+    }
+
+    function closeCmdk() {
+        cmdkOverlay.classList.remove('active');
+    }
+
+    document.getElementById('cmdkTrigger').addEventListener('click', openCmdk);
+
+    document.addEventListener('keydown', (e) => {
+        const typingInField = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
+
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            cmdkOverlay.classList.contains('active') ? closeCmdk() : openCmdk();
+            return;
+        }
+        if (e.key === '/' && !typingInField && !cmdkOverlay.classList.contains('active')) {
+            e.preventDefault();
+            openCmdk();
+            return;
+        }
+        if (!cmdkOverlay.classList.contains('active')) return;
+
+        if (e.key === 'Escape') { closeCmdk(); }
+        else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            cmdkActiveIndex = Math.min(cmdkActiveIndex + 1, cmdkFiltered.length - 1);
+            renderCmdkList();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            cmdkActiveIndex = Math.max(cmdkActiveIndex - 1, 0);
+            renderCmdkList();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            runActive();
+        }
+    });
+
+    cmdkInput.addEventListener('input', () => {
+        const q = cmdkInput.value.toLowerCase().trim();
+        cmdkFiltered = cmdkCommands.filter(c => c.label.toLowerCase().includes(q));
+        cmdkActiveIndex = 0;
+        renderCmdkList();
+    });
+
+    cmdkOverlay.addEventListener('click', (e) => {
+        if (e.target === cmdkOverlay) closeCmdk();
     });
 </script>
 </body>
