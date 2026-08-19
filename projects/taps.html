@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -261,7 +262,7 @@
             color:var(--text-faint);
         }
 
-        
+
         .stats{display:flex;gap:24px;margin-top:24px;flex-wrap:wrap;}
         .stat{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 18px;}
         .stat span{display:block;font-weight:600;font-size:18px;color:var(--accent);}
@@ -315,11 +316,192 @@
     right:30px;
 }
 
+
+/* ===== PORTFOLIO THEME — TAPS ===== */
+
+/* Floating header */
+nav{
+    position:fixed !important;
+    top:0 !important;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 32px);
+    max-width:1100px;
+    margin:0;
+    height:60px;
+    border:1px solid rgba(24,24,27,.10);
+    border-radius:16px;
+    background:rgba(255,255,255,.94) !important;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    box-shadow:0 8px 28px rgba(24,24,27,.07);
+    z-index:1000;
+}
+.nav-inner{
+    height:60px;
+    max-width:none;
+    padding:0 18px;
+}
+body{
+    padding-top:76px;
+    position:relative;
+    overflow-x:hidden;
+}
+
+/* Animated square background */
+.square-background{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    overflow:hidden;
+    background:
+        linear-gradient(rgba(79,70,229,.065) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,70,229,.065) 1px, transparent 1px);
+    background-size:72px 72px;
+    mask-image:linear-gradient(to bottom, black 0%, rgba(0,0,0,.78) 62%, transparent 100%);
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, rgba(0,0,0,.78) 62%, transparent 100%);
+}
+.square-background::before,
+.square-background::after{
+    content:"";
+    position:absolute;
+    width:190px;
+    height:190px;
+    border:1px solid rgba(79,70,229,.16);
+    background:rgba(79,70,229,.035);
+    animation:squareFloat 18s ease-in-out infinite;
+}
+.square-background::before{
+    left:8%;
+    top:20%;
+    transform:rotate(12deg);
+}
+.square-background::after{
+    right:10%;
+    top:60%;
+    width:250px;
+    height:250px;
+    border-color:rgba(15,157,138,.14);
+    background:rgba(15,157,138,.028);
+    animation-delay:-7s;
+    animation-duration:23s;
+}
+@keyframes squareFloat{
+    0%,100%{
+        transform:translate3d(0,0,0) rotate(12deg);
+        opacity:.45;
+    }
+    50%{
+        transform:translate3d(22px,-28px,0) rotate(18deg);
+        opacity:.9;
+    }
+}
+
+/* Let the animated background show through the hero and sections */
+.hero,
+.section{
+    position:relative;
+    z-index:1;
+    background:transparent;
+}
+.hero{
+    border-bottom:1px solid rgba(228,228,231,.8);
+}
+.section{
+    border-bottom:1px solid rgba(228,228,231,.8);
+}
+
+/* Elevated cards */
+.card{
+    background:rgba(255,255,255,.90);
+    border:1px solid rgba(228,228,231,.92);
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(24,24,27,.045);
+}
+.highlight{
+    background:rgba(255,255,255,.92);
+    border:1px solid rgba(228,228,231,.92);
+    border-radius:12px;
+    box-shadow:0 7px 22px rgba(24,24,27,.035);
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.highlight:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(24,24,27,.065);
+    border-color:rgba(161,161,170,.65);
+}
+.gallery-item{
+    background:rgba(255,255,255,.94);
+    border:1px solid rgba(228,228,231,.92);
+    border-radius:16px;
+    box-shadow:0 9px 28px rgba(24,24,27,.045);
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.gallery-item:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 34px rgba(24,24,27,.075);
+    border-color:rgba(161,161,170,.65);
+}
+.gallery img{
+    border-radius:0;
+}
+.featured{
+    box-shadow:0 4px 14px rgba(79,70,229,.06);
+}
+.stats .stat{
+    background:rgba(255,255,255,.92);
+    border:1px solid rgba(228,228,231,.92);
+    border-radius:12px;
+    box-shadow:0 7px 20px rgba(24,24,27,.035);
+}
+
+/* Video card gets the same surface treatment */
+.card video{
+    display:block;
+    border-radius:12px;
+}
+
+/* Back button remains the original purple accent */
+.back-btn{
+    box-shadow:0 7px 18px rgba(79,70,229,.12);
+}
+
+/* Footer sits cleanly above the animated background */
+footer{
+    position:relative;
+    z-index:1;
+    background:rgba(244,244,245,.92);
+    backdrop-filter:blur(6px);
+}
+
+/* Mobile header */
+@media(max-width:768px){
+    nav{
+        width:calc(100% - 20px);
+        border-radius:13px;
+    }
+    .nav-inner{
+        padding:0 14px;
+    }
+    body{
+        padding-top:70px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    .square-background::before,
+    .square-background::after{
+        animation:none;
+    }
+}
+
     </style>
 
 </head>
 
 <body>
+<div class="square-background" aria-hidden="true"></div>
 
 <nav>
     <div class="nav-inner">
