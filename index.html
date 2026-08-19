@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -750,13 +751,30 @@
             margin-bottom:18px;
 
             font-size:14px;
-            color:#DC2626;
+            color:var(--accent);
+            text-shadow:0 0 8px rgba(79,70,229,.22);
 
             font-family:'SFMono-Regular','Consolas',monospace;
         }
 
         .cursor{
-            animation:blink 1s infinite;
+            color:#0F9D8A;
+            font-weight:800;
+            text-shadow:0 0 6px rgba(15,157,138,.35);
+
+            display:inline-block;
+            width:2px;
+            height:1.05em;
+            margin-left:2px;
+            vertical-align:-0.15em;
+            background:var(--accent);
+            box-shadow:0 0 7px rgba(79,70,229,.38);
+            animation:cursorGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes cursorGlow{
+            0%,100%{opacity:1;box-shadow:0 0 7px rgba(79,70,229,.38);}
+            50%{opacity:.18;box-shadow:0 0 2px rgba(79,70,229,.08);}
         }
 
         @keyframes blink{
@@ -826,9 +844,242 @@
           padding: 20px 16px; text-align: center;
           font-size: 12.5px; color: var(--text-faint);
         }
+
+/* ===== REQUESTED VISUAL LAYER ONLY =====
+   Background + cards + floating header. Existing typography, text colors,
+   accent colors, content and component-specific styling remain unchanged. */
+html{scroll-behavior:smooth}
+body{
+  background:var(--surface);
+  color:var(--text);
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 82% 5%,rgba(79,70,229,.07),transparent 28%),
+    radial-gradient(circle at 8% 38%,rgba(199,243,107,.07),transparent 24%);
+}
+
+/* Floating header — same visual treatment as the reference, but flush to the viewport top. */
+nav{
+  position:sticky !important;
+  top:0 !important;
+  width:calc(100% - 32px);
+  max-width:1180px;
+  margin:0 auto;
+  border:1px solid rgba(24,24,27,.08) !important;
+  border-top:0 !important;
+  border-radius:0 0 18px 18px;
+  background:rgba(255,255,255,.97) !important;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 10px 30px rgba(24,24,27,.07);
+  z-index:1000;
+}
+.nav-inner{
+  max-width:1180px;
+  height:64px;
+  padding:0 18px;
+}
+.nav-mobile{background:rgba(255,255,255,.99)}
+
+/* Modern card surfaces, without changing the existing typography/colors. */
+.about-pillar,
+.profile-frame,
+.tl-logo-wrap,
+.proj-card,
+.shelf,
+.shelf-item{
+  box-shadow:0 10px 28px rgba(24,24,27,.045);
+}
+.about-pillar{
+  border-radius:18px;
+  background:rgba(255,255,255,.94);
+}
+.about-pillar:hover{
+  box-shadow:0 16px 32px rgba(24,24,27,.07);
+}
+.profile-frame{
+  border-radius:18px;
+  box-shadow:0 16px 40px rgba(24,24,27,.08);
+}
+.proj-card{
+  max-width:none;
+  border-radius:22px;
+  box-shadow:0 20px 50px rgba(24,24,27,.10);
+}
+.shelf{
+  border-radius:22px;
+  overflow:hidden;
+  background:rgba(255,255,255,.94);
+}
+.shelf-grid{
+  border-radius:22px;
+  overflow:hidden;
+}
+.shelf-item:hover{background:var(--surface-2)}
+.tl-item{
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:0 10px 28px rgba(24,24,27,.045);
+}
+
+/* Hero/background treatment only — retain original hero typography and colors. */
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(248,248,246,.96) 100%);
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  width:520px;height:520px;border-radius:50%;
+  right:-180px;top:80px;
+  background:radial-gradient(circle,rgba(233,228,255,.72) 0%,rgba(233,228,255,.34) 35%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;border-radius:50%;
+  left:-110px;bottom:-120px;
+  background:rgba(199,243,107,.12);
+  filter:blur(4px);
+  pointer-events:none;
+}
+.hero .container{position:relative;z-index:2}
+
+@media(max-width:640px){
+  nav{
+    width:calc(100% - 16px);
+    border-radius:0 0 14px 14px;
+  }
+  .nav-inner{height:58px}
+}
+
+            /* Bold typing cursor */
+        .cursor {
+            font-weight: 800;
+            color: var(--accent);
+            text-shadow: 0 0 6px rgba(79,70,229,.35);
+        }
+
+/* Final cursor color override */
+.typing-container .cursor {
+    color: #0F9D8A !important;
+    font-weight: 800 !important;
+    text-shadow: 0 0 6px rgba(15,157,138,.35) !important;
+}
+
+
+
+/* Subtle animated square background */
+body {
+    position: relative;
+    overflow-x: hidden;
+    background: #FFFFFF;
+}
+
+.square-background {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(79,70,229,.065) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,70,229,.065) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.72) 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.72) 55%, transparent 100%);
+}
+
+.square-background::before,
+.square-background::after {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border: 1px solid rgba(79,70,229,.16);
+    background: rgba(79,70,229,.035);
+    animation: squareFloat 18s ease-in-out infinite;
+}
+
+.square-background::before {
+    left: 8%;
+    top: 24%;
+    transform: rotate(12deg);
+}
+
+.square-background::after {
+    right: 10%;
+    top: 62%;
+    width: 250px;
+    height: 250px;
+    border-color: rgba(15,157,138,.14);
+    background: rgba(15,157,138,.028);
+    animation-delay: -7s;
+    animation-duration: 23s;
+}
+
+@keyframes squareFloat {
+    0%, 100% {
+        transform: translate3d(0,0,0) rotate(12deg);
+        opacity: .45;
+    }
+    50% {
+        transform: translate3d(22px,-28px,0) rotate(18deg);
+        opacity: .9;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .square-background::before,
+    .square-background::after {
+        animation: none;
+    }
+}
+
+
+/* Remove decorative floating command/code text; keep hero typing cursor effect. */
+.code-float {
+    display: none !important;
+}
+
+/* Ensure the square animation is visible behind the hero/about area. */
+.square-background {
+    z-index: 0 !important;
+    opacity: 1 !important;
+}
+.hero,
+.section {
+    position: relative;
+    z-index: 1;
+}
+.hero {
+    background: transparent !important;
+}
+.square-background {
+    background:
+        linear-gradient(rgba(79,70,229,.065) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,70,229,.065) 1px, transparent 1px);
+    background-size: 72px 72px;
+}
+.square-background::before,
+.square-background::after {
+    z-index: 1;
+}
+
     </style>
 </head>
 <body>
+<div class="square-background" aria-hidden="true"></div>
 
 
 <!-- NAV -->
@@ -867,32 +1118,26 @@
 
 <!-- HERO -->
 <section class="hero">
-    <span class="code-float"
-          style="left:62%;top:18%;animation-duration:14s;animation-delay:0s;">assert(result).isTrue()</span>
-    <span class="code-float" style="left:75%;top:55%;animation-duration:18s;animation-delay:3s;">docker run --rm</span>
-    <span class="code-float"
-          style="left:55%;top:72%;animation-duration:16s;animation-delay:6s;">@Test void validate()</span>
-    <span class="code-float"
-          style="left:80%;top:30%;animation-duration:20s;animation-delay:1s;">git commit -m "fix"</span>
-    <span class="code-float"
-          style="left:68%;top:82%;animation-duration:15s;animation-delay:9s;">pipeline { stages }</span>
-    <span class="code-float" style="left:58%;top:42%;animation-duration:22s;animation-delay:4s;">behave --tags</span>
-    <span class="code-float"
-          style="left:85%;top:65%;animation-duration:17s;animation-delay:7s;">mvn test -Denv=test</span>
-    <span class="code-float"
-          style="left:72%;top:10%;animation-duration:19s;animation-delay:2s;">Scenario Outline:</span>
+
+
+
+
+
+
+
     <div class="container">
         <div class="eyebrow">// SDET · Bangalore, India</div>
         <h1>Manjunath.</h1>
         <p class="hero-role">Senior Automation Test Engineer &amp; QE Lead</p>
-        <div class="typing-container">
-            <span id="typing-text"></span>
-            <span class="cursor">|</span>
-        </div>
         <p class="hero-desc">
             Building scalable quality engineering solutions, improving software reliability,
             and enabling efficient testing practices across enterprise teams.
         </p>
+
+        <div class="typing-container">
+            <span id="typing-text"></span><span class="cursor">|</span>
+        </div>
+
         <div class="actions">
             <a class="btn-primary" href="#projects">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -922,7 +1167,7 @@
                             <polyline points="12 6 12 12 16 14"/>
                         </svg>
                     </div>
-                    <span class="stat-num" data-target="9" data-suffix="+">0</span>
+                    <span class="stat-num" data-target="10" data-suffix="+">0</span>
                     <span class="stat-label">YEARS IN QE</span>
                 </div>
                 <div class="stat-shelf-item">
@@ -946,7 +1191,7 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                         </svg>
                     </div>
-                    <span class="stat-num" data-target="6" data-suffix="+">0</span>
+                    <span class="stat-num" data-target="8" data-suffix="+">0</span>
                     <span class="stat-label">ENGINEERS MENTORED</span>
                 </div>
             </div>
@@ -967,7 +1212,7 @@
                     </div>
                 </div>
                 <p class="reveal">
-                    QE Lead with 9+ years of experience in test automation, framework design, and quality
+                    QE Lead with 10+ years of experience in test automation, framework design, and quality
                     engineering across enterprise applications. Hands-on across UI, API, and protocol-level
                     testing, and comfortable leading teams while still writing the code myself.
                 </p>
@@ -1094,7 +1339,7 @@
                 </div>
                 <div class="tl-body">
                     <div class="tl-company">Publicis Sapient</div>
-                    <div class="tl-role">SDET Automation Test Engineer</div>
+                    <div class="tl-role">SDET</div>
                     <span class="tl-current">● Current</span>
                     <button class="tl-toggle" aria-expanded="false">
                         Highlights
@@ -1358,8 +1603,8 @@
         </div>
     </div>
 </footer>
-<script>
 
+<script>
     const messages = [
         "Building Quality Engineering Solutions",
         "Designing Scalable Automation Frameworks",
@@ -1374,10 +1619,9 @@
     const typingText = document.getElementById("typing-text");
 
     function typeEffect() {
-
         const current = messages[msgIndex];
 
-        if(!deleting){
+        if (!deleting) {
             typingText.textContent = current.substring(0, charIndex++);
         } else {
             typingText.textContent = current.substring(0, charIndex--);
@@ -1385,12 +1629,12 @@
 
         let speed = deleting ? 40 : 70;
 
-        if(!deleting && charIndex === current.length + 1){
+        if (!deleting && charIndex === current.length + 1) {
             deleting = true;
             speed = 1800;
         }
 
-        if(deleting && charIndex === 0){
+        if (deleting && charIndex === 0) {
             deleting = false;
             msgIndex = (msgIndex + 1) % messages.length;
             speed = 300;
@@ -1400,7 +1644,6 @@
     }
 
     typeEffect();
-
 </script>
 
 <!-- COMMAND PALETTE -->
